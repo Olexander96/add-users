@@ -1,5 +1,6 @@
 import {useState} from "react"
 import "./Form.css";
+import Button from "../UI/Button";
 
 const Form = (props) => {
 
@@ -16,21 +17,21 @@ const Form = (props) => {
   const submitFormHandler = (event) => {
     event.preventDefault();
 
-    if (personName === '' && personAge === '') {
+    if (personName.trim() === '' && personAge.trim() === '') {
       props.showModal();
       props.setError('Введіть дані користувача!');
       return;
 
-    } else if (personName === '') {
+    } else if (personName.trim() === '') {
       props.showModal();
       props.setError("Введіть ім'я користувача!");
       return;
-    } else if (personAge === '') {
+    } else if (personAge.trim() === '') {
       props.showModal();
       props.setError("Введіть вік користувача!");
       return;
     }
-     else if ( Number(personAge) < 1) {
+     else if ( +personAge < 1) {
       props.showModal();
       props.setError('Вік користувача повинен бути > 0');
       return;
@@ -38,17 +39,17 @@ const Form = (props) => {
     
     const formData = {
       name: personName,
-      age: Number(personAge),
+      age: +personAge,
     };
 
     props.setNewPerson(formData);
     setPersonName('');
-    setPersonAge('')
+    setPersonAge('');
     
   };
   
   return (
-    <form className="form" onSubmit={ submitFormHandler }>
+    <form className="form">
       <label>
         Ім'я
         <input type="text" name="name" onChange={setPersonNameHandler} value={personName}/>
@@ -59,7 +60,7 @@ const Form = (props) => {
         <input type="number" name="age" onChange={setPersonAgeHandler} value={personAge}/>
       </label>
 
-      <button type="submit">Додати користувача</button>
+      <Button type="submit" onClick={submitFormHandler}>Додати користувача</Button>
     </form>
   );
 };
