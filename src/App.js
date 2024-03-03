@@ -5,18 +5,18 @@ import PersonsList from "./components/PersonsList/PersonsList";
 import Modal from "./components/Modal/Modal";
 
 function App() {
-  const [modalActive, setModalActive] = useState(true);
+  const [modalActive, setModalActive] = useState(false);
   const [modalError, setModalError] = useState("");
 
-  const [personsList, setPersonsList] = useState([
-    // { name: "Caня", age: 28, id: 1 },
-  ]);
+  const [personsList, setPersonsList] = useState([]);
 
   const setNewPersonHandler = (person) => {
-    setPersonsList([
-      { ...person, id: personsList[0] ? personsList[0].id + 1 : 1 },
-      ...personsList,
-    ]);
+    setPersonsList((prevState) => {
+      return [
+        { ...person, id: prevState[0] ? prevState[0].id + 1 : 1 },
+        ...prevState,
+      ];
+    });
   };
 
   const closeModalWindowHandler = () => {
