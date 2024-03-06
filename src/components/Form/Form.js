@@ -1,21 +1,29 @@
-import {useState} from "react"
+import {useRef} from "react"
 import "./Form.css";
 import Button from "../UI/Button";
 
 const Form = (props) => {
 
-  const [personName, setPersonName] = useState('');
-  const [personAge, setPersonAge] = useState('');
+  // const [personName, setPersonName] = useState('');
+  // const [personAge, setPersonAge] = useState('');
 
-  const setPersonNameHandler = (event) => {
-    setPersonName(event.target.value);
-  }
-  const setPersonAgeHandler = (event) => {
-    setPersonAge(event.target.value);
-  }
+  const personInputName = useRef();
+  const personInputAge= useRef();
+
+
+
+  // const setPersonNameHandler = (event) => {
+  //   setPersonName(event.target.value);
+  // }
+  // const setPersonAgeHandler = (event) => {
+  //   setPersonAge(event.target.value);
+  // }
 
   const submitFormHandler = (event) => {
     event.preventDefault();
+
+    const personName = personInputName.current.value;
+    const personAge = personInputAge.current.value;
 
     if (personName.trim() === '' && personAge.trim() === '') {
       props.showModal();
@@ -43,21 +51,20 @@ const Form = (props) => {
     };
 
     props.setNewPerson(formData);
-    setPersonName('');
-    setPersonAge('');
-    
+    personInputName.current.value = '';
+    personInputAge.current.value = '';
   };
   
   return (
     <form className="form">
       <label>
         Ім'я
-        <input type="text" name="name" onChange={setPersonNameHandler} value={personName}/>
+        <input type="text" name="name" ref={personInputName}/>
       </label>
 
       <label>
         Вік
-        <input type="number" name="age" onChange={setPersonAgeHandler} value={personAge}/>
+        <input type="number" name="age" ref={personInputAge}/>
       </label>
 
       <Button type="submit" onClick={submitFormHandler}>Додати користувача</Button>
